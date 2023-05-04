@@ -1,6 +1,7 @@
 package com.example.demo.data.repository;
 
 import com.example.demo.data.model.Vote;
+import com.example.demo.dtos.Requests.PoliticalParty;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 @Repository
 public class VoteRepositoryImpl implements VoteRepository {
     private int countVote;
+    private int eachPartyVoteCount;
     private List<Vote> votes = new ArrayList<>();
 
     @Override
@@ -37,13 +39,25 @@ public class VoteRepositoryImpl implements VoteRepository {
 
     @Override
     public Vote findByPartyName(String party) {
-        for (Vote vote : votes) if(vote.getCandidate().equalsIgnoreCase(party)) return vote;
+        for (Vote vote : votes)
+            if (vote.getCandidate().equalsIgnoreCase(party))
+                return vote;
         return null;
     }
 
     @Override
     public long countVote() {
         return countVote;
+    }
+private void findAndCountPartyVote(String party){
+        for (Vote vote : votes){
+            if(vote.getCandidate().equalsIgnoreCase(PoliticalParty.APC.getFillCell())) eachPartyVoteCount++;
+        }
+}
+    @Override
+    public long eachPartyVoteCount(String party) {
+        findAndCountPartyVote(party);
+        return eachPartyVoteCount;
     }
 
     @Override
@@ -66,7 +80,6 @@ public class VoteRepositoryImpl implements VoteRepository {
             }
         }
     }
-
     @Override
     public void deleteAll() {
         votes.clear();

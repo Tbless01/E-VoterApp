@@ -10,11 +10,6 @@ public class VoterController {
     @Autowired
     private VoterService voterService;
 
-    @GetMapping("/confirm/that")
-    public Object something() {
-        return "It works";
-    }
-
     @PostMapping("/voter/register")
     public Object register(@RequestBody RegisterRequest request) {
         try {

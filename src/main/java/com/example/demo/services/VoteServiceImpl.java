@@ -1,11 +1,9 @@
 package com.example.demo.services;
 
-import com.example.demo.data.model.Voter;
 import com.example.demo.dtos.Requests.PoliticalParty;
 import com.example.demo.data.model.Vote;
 import com.example.demo.data.repository.VoteRepository;
 import com.example.demo.dtos.Requests.CastVoteRequest;
-import com.example.demo.dtos.Response.FindVoterResponse;
 import com.example.demo.dtos.Response.VoteCastedResponse;
 import com.example.demo.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +20,10 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public VoteCastedResponse castVote(CastVoteRequest castVoteRequest) {
+        checkIfVoterExistsFrom(castVoteRequest);
         if (castVoteRequest.getPoliticalParty().equalsIgnoreCase(PoliticalParty.APC.getFillCell()) || castVoteRequest.getPoliticalParty().equalsIgnoreCase(PoliticalParty.PDP.getFillCell()) || castVoteRequest.getPoliticalParty().equalsIgnoreCase(PoliticalParty.LP.getFillCell()) || castVoteRequest.getPoliticalParty().equalsIgnoreCase(PoliticalParty.NNPP.getFillCell()) || castVoteRequest.getPoliticalParty().equalsIgnoreCase(PoliticalParty.AA.getFillCell())) {
-            checkIfVoterExistsFrom(castVoteRequest);
             if (citizenHasVoted(castVoteRequest.getVoterId()) && citizenHasVotedByName(castVoteRequest.getPoliticalParty()))
-                throw new IllegalArgumentException("Citizen with id " + castVoteRequest.getVoterId() + " has already voted.\n You cannot vote twice.");
+                throw new IllegalArgumentException("Citizen with id " + castVoteRequest.getVoterId() + " has already voted.\n One citizen is not allowed to vote twice.");
             Vote vote = new Vote();
             Mapper.map(castVoteRequest, vote);
             return Mapper.mapp(voteRepository.save(vote));
@@ -67,6 +65,10 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public long count() {
         return voteRepository.countVote();
+    }
+    @Override
+    public long eachPoliticalParty(String party) {
+        return voteRepository.eachPartyVoteCount(party);
     }
 }
 

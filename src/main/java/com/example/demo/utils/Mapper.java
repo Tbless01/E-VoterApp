@@ -48,11 +48,20 @@ public class Mapper {
         voter.setPassword(registerRequest.getPassword());
     }
 
-    public static void map(Voter foundUser, FindVoterResponse response) {
-        response.setFullName(foundUser.getFirstName() + " " + foundUser.getLastName());
-        response.setUserId(foundUser.getId());
-        response.setUsername(foundUser.getUsername());
-        response.setValidVoter_sCardNumber(foundUser.getValidVoter_sCardNumber());
+    public static void map(Voter voter, FindVoterResponse response) {
+        response.setFullName(voter.getFirstName() + " " + voter.getLastName());
+        response.setUserId(voter.getId());
+        response.setUsername(voter.getUsername());
+        response.setValidVoter_sCardNumber(voter.getValidVoter_sCardNumber());
+    }
+//    todo=>  same as this below
+    public static FindVoterResponse map(Voter voter){
+        FindVoterResponse response = new FindVoterResponse();
+        response.setFullName(voter.getFirstName()+" "+voter.getLastName());
+        response.setAge(voter.getAge());
+        response.setValidVoter_sCardNumber(voter.getValidVoter_sCardNumber());
+        response.setUserId(voter.getId());
+        return response;
     }
 
     public static void map(int id) {

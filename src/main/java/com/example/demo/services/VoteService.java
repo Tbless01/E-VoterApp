@@ -11,6 +11,7 @@ public interface VoteService {
     Vote findVote(int id);
     VoteCastedResponse findByPartyName(String candidate);
 //    FindVoterResponse findAll();
-
+long eachPoliticalParty(String party);
     long count();
+//    long eachPoliticalParty();
 }

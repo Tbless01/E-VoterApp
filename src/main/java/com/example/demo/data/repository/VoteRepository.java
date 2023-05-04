@@ -9,10 +9,9 @@ public interface VoteRepository {
     Vote findById(int id);
     Vote findByPartyName(String party);
     long countVote();
+    long eachPartyVoteCount(String party);
     List<Vote> findAll();
-
     void delete(Vote vote);
-
     void delete(int id);
     void deleteAll();
 }

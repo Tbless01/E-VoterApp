@@ -27,10 +27,13 @@ public class VoteController {
             return e.getMessage();
         }
     }
-
     @GetMapping("/voteCount")
     public Object findAllVote() {
         return voteService.count();
+    }
+    @GetMapping("/{eachPartyCount}")
+    public Object findPartyVoteCount(@PathVariable String eachPartyCount){
+        return voteService.eachPoliticalParty(eachPartyCount);
     }
 }
 

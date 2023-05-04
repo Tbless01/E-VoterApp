@@ -50,6 +50,14 @@ public class VoterRepositoryImpl implements VoterRepository {
 
     @Override
     public void delete(int id) {
+//        for (int i = 0; i < voters.size(); i++) {
+//            if (voters.get(i).getId() == id){
+//                voters.remove(voters.get(i));
+//                count--;
+//                break;
+//            }
+//        }
+//        todo => it is same as
         for (Voter voter: voters){
             if(voter.getId() == id){
                 voters.remove(voter);
