@@ -49,11 +49,13 @@ public class VoteRepositoryImpl implements VoteRepository {
     public long countVote() {
         return countVote;
     }
-private void findAndCountPartyVote(String party){
-        for (Vote vote : votes){
-            if(vote.getCandidate().equalsIgnoreCase(PoliticalParty.APC.getFillCell())) eachPartyVoteCount++;
+
+    private void findAndCountPartyVote(String party) {
+        for (Vote vote : votes) {
+            if (vote.getCandidate().equalsIgnoreCase(PoliticalParty.APC.getFillCell())) eachPartyVoteCount++;
         }
-}
+    }
+
     @Override
     public long eachPartyVoteCount(String party) {
         findAndCountPartyVote(party);
@@ -80,6 +82,7 @@ private void findAndCountPartyVote(String party){
             }
         }
     }
+
     @Override
     public void deleteAll() {
         votes.clear();
