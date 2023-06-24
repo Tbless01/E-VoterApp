@@ -1,39 +1,33 @@
-package com.example.demo.controllers;
+package com.example.demo2.controllers;
 
-import com.example.demo.dtos.Requests.CastVoteRequest;
-import com.example.demo.services.VoteService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo2.data.model.PoliticalParty;
+import com.example.demo2.dtos.Requests.CastVoteRequest;
+import com.example.demo2.exceptions.UserHasVotedException;
+import com.example.demo2.exceptions.UserNotFoundException;
+import com.example.demo2.exceptions.VoteAvailablePartyException;
+import com.example.demo2.services.VoteService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 public class VoteController {
-    @Autowired
-    private VoteService voteService;
+
+    private final VoteService voteService;
 
     @PostMapping("/vote")
-    public Object castVote(@RequestBody CastVoteRequest request) {
+    public ResponseEntity<?> castVote(@RequestBody CastVoteRequest request) throws UserNotFoundException {
         try {
-            return voteService.castVote(request);
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
+            var response =voteService.castVote(request);
+            return ResponseEntity.ok(response);
+        } catch (UserNotFoundException | UserHasVotedException | VoteAvailablePartyException e) {
+            return ResponseEntity.badRequest().body(e);
         }
-    }
-
-    @GetMapping("/vote/{party}")
-    public Object findVote(@PathVariable String party) {
-        try {
-            return voteService.findByPartyName(party);
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
-        }
-    }
-    @GetMapping("/voteCount")
-    public Object findAllVote() {
-        return voteService.count();
     }
     @GetMapping("/{eachPartyCount}")
     public Object findPartyVoteCount(@PathVariable String eachPartyCount){
-        return voteService.eachPoliticalParty(eachPartyCount);
+        return voteService.voteCountForParty(PoliticalParty.valueOf(eachPartyCount));
     }
 }
 

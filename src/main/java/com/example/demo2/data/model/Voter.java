@@ -1,13 +1,21 @@
-package com.example.demo.data.model;
+package com.example.demo2.data.model;
 
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "voter")
 public class Voter  {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String firstName;
     private String lastName;
-    private String Username;
+    private String username;
     private String validVoter_sCardNumber;
     private int age;
     private String password;

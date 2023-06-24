@@ -1,4 +1,4 @@
-package com.example.demo.dtos.Requests;
+package com.example.demo2.data.model;
 
 public enum PoliticalParty {
     APC("APC"),

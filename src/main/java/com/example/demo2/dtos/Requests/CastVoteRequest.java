@@ -1,30 +1,16 @@
-package com.example.demo.dtos.Requests;
+package com.example.demo2.dtos.Requests;
 
+import com.example.demo2.data.model.PoliticalParty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CastVoteRequest {
-private String politicalParty;
-private int voterId;
-
-    @Override
-    public String toString() {
-        return "CastVoteRequest{" +
-                "politicalParty='" + politicalParty + '\'' +
-                ", voterId=" + voterId +
-                '}';
-    }
-
-    public String getPoliticalParty() {
-        return politicalParty;
-    }
-
-    public void setPoliticalParty(String politicalParty) {
-        this.politicalParty = politicalParty;
-    }
-
-    public int getVoterId() {
-        return voterId;
-    }
-
-    public void setVoterId(int voterId) {
-        this.voterId = voterId;
-    }
+    private String username;
+    private PoliticalParty politicalParty;
 }

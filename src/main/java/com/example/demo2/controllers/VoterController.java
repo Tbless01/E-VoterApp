@@ -1,30 +1,45 @@
-package com.example.demo.controllers;
+package com.example.demo2.controllers;
 
-import com.example.demo.dtos.Requests.RegisterRequest;
-import com.example.demo.services.VoterService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo2.dtos.Requests.RegisterRequest;
+import com.example.demo2.dtos.Response.FindVoterResponse;
+import com.example.demo2.exceptions.UserRegistrationFailedException;
+import com.example.demo2.exceptions.VoteEligibilityException;
+import com.example.demo2.services.VoterService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 public class VoterController {
-    @Autowired
-    private VoterService voterService;
+    private final VoterService voterService;
 
     @PostMapping("/voter/register")
-    public Object register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
-            return voterService.register(request);
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
+             FindVoterResponse response = voterService.register(request);
+             return ResponseEntity.ok(response);
+        } catch (UserRegistrationFailedException | VoteEligibilityException e) {
+            return ResponseEntity.badRequest().body(e);
         }
     }
 
     @GetMapping("/voter/{id}")
-    public Object findVoterById(@PathVariable int id) {
+    public Object findVoterById(@PathVariable Long id) {
         try{
             return voterService.findVoter(id);
         }catch (IllegalArgumentException e){
             return e.getMessage();
+        }
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deleteUserById(@PathVariable Long id){
+        try {
+            var response = voterService.deleteById(id);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e);
         }
     }
 }

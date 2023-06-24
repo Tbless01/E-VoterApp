@@ -1,10 +1,21 @@
-package com.example.demo.data.model;
+package com.example.demo2.data.model;
 
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "vote")
 public class Vote {
-private int id;
-private int voterID;
-private String candidate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+//    private String fullName;
+    private String username;
+
+    @Enumerated(EnumType.STRING)
+    private PoliticalParty politicalParty;
 }
